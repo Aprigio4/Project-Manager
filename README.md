@@ -25,7 +25,8 @@
 3. Add Project Manager to Path so you can run it from anywhere:
    - Open a terminal and run:
    ```bash
-   echo 'export PATH="$PATH:/path/to/Project-Manager"' >> ~/.bashrc
+   chmod +x uv-project.sh
+   echo "alias uv-project='/full/path/to/uv-project.sh'" >> ~/.bashrc
    source ~/.bashrc
    ```
 ## Usage
