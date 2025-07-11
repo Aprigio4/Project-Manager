@@ -51,3 +51,4 @@
 ```bash
    uv remove <dependency-name>
 ```
+8. Check [Quality Assurance](.\docs\Quality-Assurance.md) to get more information about how to use the quality assurance features.
