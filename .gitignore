@@ -3,6 +3,7 @@
 !README.md
 !pyproject.toml
 !uv-project.bat
+!uv-project.sh
 !uv-create.py
 !docs/
 !docs/*.md
