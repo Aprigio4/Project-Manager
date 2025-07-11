@@ -1,0 +1,9 @@
+*
+!.gitignore
+!README.md
+!pyproject.toml
+!uv-project.bat
+!uv-create.py
+!docs/
+!docs/*.md
+!.pre-commit-config.yaml
