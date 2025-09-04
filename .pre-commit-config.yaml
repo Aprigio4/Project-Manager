@@ -8,7 +8,8 @@ repos:
         name: black
         stages: [ pre-commit ]
         language: system
-        entry: pipenv run black .
+        entry: uv
+        args: [ run, black, . ]
         types: [ python ]
 
       ### CODE STYLE ENFORCEMENT
@@ -17,7 +18,8 @@ repos:
         name: ruff
         stages: [ pre-commit ]
         language: system
-        entry: pipenv run ruff check .
+        entry: uv
+        args: [ run, ruff, check, . ]
         types: [ python ]
 
       ### TYPE CHECKING
@@ -26,18 +28,20 @@ repos:
         name: mypy
         stages: [ pre-commit ]
         language: system
-        entry: pipenv run mypy .
+        entry: uv
+        args: [ run, mypy, . ]
         types: [ python ]
         pass_filenames: false
 
       ### SECURITY
 
-      - id: check
-        name: check
-        stages: [ pre-push ]
-        language: system
-        entry: pipenv check
-        types: [ python ]
+      # - id: check
+      #   name: check
+      #   stages: [ pre-push ]
+      #   language: system
+      #   entry: uv
+      #   args: [ check ]
+      #   types: [ python ]
 
       ### TESTING
 
@@ -45,6 +49,7 @@ repos:
         name: pytest
         stages: [ pre-push ]
         language: system
-        entry: pipenv run pytest
+        entry: uv
+        args: [ run, pytest ]
         types: [ python ]
         pass_filenames: false
