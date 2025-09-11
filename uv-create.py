@@ -166,12 +166,15 @@ exclude_lines = [
             project_path = Path.cwd() / project_name
 
         # Check if project already exists
-        if project_path.exists():
-            print(f"Error: Directory '{project_path}' already exists!")
+        if project_path.exists() and target_dir:
+            print(f"Warning: Directory '{project_path}' already exists. Using existing directory.")
+        elif project_path.exists() and not target_dir:
+            print(f"❌ Error: Directory '{project_path}' already exists!")
+            print("Please choose a different project name or specify a target directory.")
             return False
 
         # Create project directory
-        project_path.mkdir(parents=True)
+        project_path.mkdir(parents=True, exist_ok=True)
 
         try:
             # Initialize with UV
