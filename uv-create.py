@@ -380,7 +380,7 @@ repos:
             f.write(default_templates[template_name])
         print(f"✅ Reset template '{template_name}' to default content")
 
-    def install_pre_commit_hooks(self, force: bool = False):
+    def install_pre_commit_hooks(self, force_hooks: bool = False):
         """Install pre-commit hooks in the current project"""
         if not self.project_path:
             print("Error: No project created yet. Please create a project first.")
@@ -437,8 +437,8 @@ def main():
     create_parser.add_argument("--author-name", help="Author name")
     create_parser.add_argument("--author-email", help="Author email")
     create_parser.add_argument(
-        "-f"
-        "--force",
+        "-fh",
+        "--force_hooks",
         action="store_true",
         help="Force reinstall of pre-commit hooks",
     )
@@ -474,15 +474,15 @@ def main():
     creator = UVCreateTemplate(args.template_dir)
 
     if args.command == "create":
-        creator.create_project(
+        success = creator.create_project(
             args.project_name,
             args.template,
             args.target_dir,
             args.author_name,
             args.author_email,
         )
-        if args.force:
-            creator.install_pre_commit_hooks(force=True)
+        if success:
+            creator.install_pre_commit_hooks(force_hooks=getattr(args, 'force_hooks', False))
     elif args.command == "list":
         templates = creator.list_templates()
         print("Available templates:")

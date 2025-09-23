@@ -93,6 +93,9 @@ case "$COMMAND" in
                     [ -z "$1" ] && { echo "Error: --author-email requires a value"; exit 1; }
                     PYTHON_CMD+=("--author-email" "$1")
                     ;;
+                --force_hooks)
+                    PYTHON_CMD+=("--force_hooks")
+                    ;;
                 *)
                     echo "Error: Unknown option \"$1\""
                     exit 1
