@@ -16,6 +16,7 @@ class UVCreateTemplate:
             Path(template_dir) if template_dir else Path.home() / ".uv_templates"
         )
         self.ensure_template_dir()
+        self.project_path: Path | None = None
 
     def ensure_template_dir(self):
         """Ensure the template directory exists"""
@@ -175,7 +176,9 @@ exclude_lines = [
 
         # Create project directory
         project_path.mkdir(parents=True, exist_ok=True)
-
+        print(f"📁 Created project directory: {project_path}")
+        self.project_path = project_path
+         # Initialize UV and create project structure
         try:
             # Initialize with UV
             subprocess.run(
@@ -377,6 +380,44 @@ repos:
             f.write(default_templates[template_name])
         print(f"✅ Reset template '{template_name}' to default content")
 
+    def install_pre_commit_hooks(self, force: bool = False):
+        """Install pre-commit hooks in the current project"""
+        if not self.project_path:
+            print("Error: No project created yet. Please create a project first.")
+            return
+        # got to the project directory
+        current_dir = self.project_path
+        os.chdir(current_dir)
+
+        if not (current_dir / ".pre-commit-config.yaml").exists():
+            print("Error: .pre-commit-config.yaml not found in the current directory!")
+            return
+
+        # uv sync to ensure dependencies are installed
+        try:
+            subprocess.run(["uv", "sync"], check=True)
+            print("✅ Successfully synced project libraries with 'uv sync'")
+        except subprocess.CalledProcessError as e:
+            print(f"Error running 'uv sync': {e}")
+            return
+        
+        # Install pre-commit hooks
+        try: 
+            cmd = ["uv", "run", "pre-commit", "install", "-t", "pre-commit"]
+            subprocess.run(cmd, check=True)
+            print("✅ Successfully installed pre-commit hooks")
+        except subprocess.CalledProcessError as e:
+            print(f"Error installing pre-commit hooks: {e}")
+            return
+        
+        # install pre-push hooks
+        try:
+            cmd = ["uv", "run", "pre-commit", "install", "-t", "pre-push"]
+            subprocess.run(cmd, check=True)
+            print("✅ Successfully installed pre-push hooks")
+        except subprocess.CalledProcessError as e:
+            print(f"Error installing pre-push hooks: {e}")
+            return
 
 def main():
     parser = argparse.ArgumentParser(
@@ -395,6 +436,12 @@ def main():
     create_parser.add_argument("--target-dir", help="Target directory for the project")
     create_parser.add_argument("--author-name", help="Author name")
     create_parser.add_argument("--author-email", help="Author email")
+    create_parser.add_argument(
+        "-f"
+        "--force",
+        action="store_true",
+        help="Force reinstall of pre-commit hooks",
+    )
 
     # List templates command
     list_parser = subparsers.add_parser("list", help="List available templates")
@@ -434,6 +481,8 @@ def main():
             args.author_name,
             args.author_email,
         )
+        if args.force:
+            creator.install_pre_commit_hooks(force=True)
     elif args.command == "list":
         templates = creator.list_templates()
         print("Available templates:")
