@@ -1,6 +1,6 @@
 #!/bin/bash
 # UV Project - Linux Shell Wrapper
-# Save this as uv-project.sh in the same directory as uv-create.py
+# Save this as uv-project.sh in the same directory as uv-project.py
 # Make executable: chmod +x uv-project.sh
 
 # Exit immediately if a command exits with a non-zero status
@@ -22,12 +22,12 @@ fi
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PYTHON_SCRIPT="$SCRIPT_DIR/uv-create.py"
+PYTHON_SCRIPT="$SCRIPT_DIR/uv-project.py"
 
 # Check if the Python script exists
 if [ ! -f "$PYTHON_SCRIPT" ]; then
-    echo "Error: uv-create.py not found in $SCRIPT_DIR"
-    echo "Please make sure uv-create.py is in the same directory as this script"
+    echo "Error: uv-project.py not found in $SCRIPT_DIR"
+    echo "Please make sure uv-project.py is in the same directory as this script"
     exit 1
 fi
 
