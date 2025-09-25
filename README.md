@@ -1,53 +1,151 @@
-# Project manager
+# UV Project
+
+A powerful command-line tool to create UV projects with custom templates, pre-configured development tools, and automated setup.
+
+## Features
+
+- 🚀 **Quick Project Creation**: Create new UV projects with a single command
+- 📝 **Custom Templates**: Use built-in templates or create your own
+- 🔧 **Pre-configured Tools**: Automatic setup of Black, Ruff, MyPy, and pytest
+- 🪝 **Git Hooks**: Auto-install pre-commit and pre-push hooks
+- ⚡ **UV Integration**: Full integration with UV package manager
+- 🎯 **Multiple Templates**: Support for basic, web, CLI, and custom project types
 
 ## Installation
 
-### Windows
+### Option 1: Install from PyPI (Recommended)
+
+```bash
+pip install uv-project
+```
+
+### Option 2: Install from Source
 
 1. Install [UV](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
 
-2. Clone the [Project-Manager](https://github.com/Aprigio4/Project-Manager)
+2. Clone this repository:
+```bash
+git clone https://github.com/Aprigio4/Project-Manager.git
+cd Project-Manager
+```
 
-3. Add Project Manager to Path so you can run it from anywhere:
-   - Open the Start Menu and search for "Environment Variables"
-   - Click on "Edit the system environment variables"
-   - In the System Properties window, click on "Environment Variables"
-   - Under "System variables", find the `Path` variable and click "Edit"
-   - Click "New" and add the path to your cloned project manager directory (e.g., `C:\path\to\Project-Manager`)
-   - Click OK to close all dialog boxes
+3. Install the package:
+```bash
+uv build
+pip install dist/uv_project-*.whl
+```
 
-### Linux
+### Option 3: Development Installation
 
-1. Install [UV](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
+1. Clone the repository and install in development mode:
+```bash
+git clone https://github.com/Aprigio4/Project-Manager.git
+cd Project-Manager
+pip install -e .
+```
 
-2. Clone the [Project-Manager](https://github.com/Aprigio4/Project-Manager)
-
-3. Add Project Manager to Path so you can run it from anywhere:
-   - Open a terminal and run:
-   ```bash
-   chmod +x uv-project.sh
-   echo "alias uv-project='/full/path/to/uv-project.sh'" >> ~/.bashrc
-   source ~/.bashrc
-   ```
 ## Usage
-1. Open a terminal or command prompt
-2. Navigate to the directory where you want to create a new project
-3. Run the command:
+
+### Create a New Project
+
 ```bash
-   uv-project create <project-name>
+uv-project create my-project
 ```
-4. Navigate into your new project directory:
+
+### Create with Specific Template
+
 ```bash
-   cd <project-name>
+uv-project create my-web-app --template web
 ```
-5. Sync your project with the following command:
+
+### Create with Custom Author Info
+
 ```bash
-   uv sync
+uv-project create my-cli --template cli --author-name "John Doe" --author-email "john@example.com"
 ```
-6. Add new dependencies to your project:
+
+### List Available Templates
+
 ```bash
-   uv add <dependency-name>
+uv-project list
 ```
+
+### View Template Details
+
+```bash
+uv-project show basic
+```
+
+### Create Custom Template
+
+```bash
+uv-project template my-template /path/to/template.toml
+```
+
+### Force Reinstall Pre-commit Hooks
+
+```bash
+uv-project create my-project --force_hooks
+```
+
+## Project Structure
+
+After creating a project, you'll get:
+
+```
+my-project/
+├── .git/                    # Git repository
+├── .pre-commit-config.yaml  # Pre-commit configuration
+├── .venv/                   # Virtual environment (after uv sync)
+├── pyproject.toml           # Project configuration
+├── README.md                # Project documentation
+└── src/
+    └── my_project/
+        ├── __init__.py
+        └── py.typed
+```
+
+## Available Templates
+
+- **basic**: Standard Python project with development tools
+- **web**: FastAPI web application template
+- **cli**: Click-based CLI application template
+- **custom**: Your own custom templates
+
+## Development Tools Included
+
+- **Black**: Code formatter
+- **Ruff**: Fast Python linter
+- **MyPy**: Static type checker
+- **pytest**: Testing framework
+- **pre-commit**: Git hooks for code quality
+
+## Quick Start
+
+1. Install UV Project:
+   ```bash
+   pip install uv-project
+   ```
+
+2. Create a new project:
+   ```bash
+   uv-project create awesome-project
+   ```
+
+3. Navigate and setup:
+   ```bash
+   cd awesome-project
+   uv sync  # Install dependencies
+   ```
+
+4. Start coding:
+   ```bash
+   # Your project is ready with:
+   # - Virtual environment
+   # - Pre-commit hooks
+   # - Development tools configured
+   # - Git repository initialized
+   ```
 7. Remove dependencies from your project:
 ```bash
    uv remove <dependency-name>

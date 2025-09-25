@@ -1,14 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "Project-Manager"
+name = "uv-project"
 version = "0.1.0"
-description = "Add your description here"
+description = "A tool to create UV projects with custom templates and pre-configured settings"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["uv", "python", "project", "template", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = []
 
-[tool.uv.workspace]
-members = [
-    "test",
-    "test2",
-]
+[project.urls]
+Homepage = "https://github.com/Aprigio4/Project-Manager"
+Repository = "https://github.com/Aprigio4/Project-Manager"
+Issues = "https://github.com/Aprigio4/Project-Manager/issues"
+
+[project.scripts]
+uv-project = "uv_create.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+uv_create = ["data/*"]
 
